@@ -1,9 +1,15 @@
-import { Hono } from 'hono'
+import { Hono } from 'hono';
+import authRouter from './routes/auth-router';
 
-const app = new Hono()
+const app = new Hono();
 
 app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+  return c.text('Hello Hono!');
+});
 
-export default app
+app.route('/auth', authRouter);
+
+export default {
+  port: Bun.env.PORT || 3000,
+  fetch: app.fetch,
+};

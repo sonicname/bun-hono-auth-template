@@ -1,0 +1,13 @@
+model Users {
+  id String @id @default(uuid())
+
+  email    String @unique
+  password String
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  sessions Sessions[]
+
+  @@map("users")
+}
