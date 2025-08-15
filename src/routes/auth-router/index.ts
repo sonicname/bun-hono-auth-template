@@ -14,7 +14,9 @@ import {
 } from 'src/routes/auth-router/schema';
 import { isProd } from 'src/utils/is-prod';
 
-const app = new Hono();
+const app = new Hono<{
+  Variables: AppEnvVariables;
+}>();
 
 app
   // ! LOGIN
@@ -173,7 +175,6 @@ app
     }
 
     const sessionId = rt.split('.')[0];
-    const refreshTokenFromToken = rt.split('.')[1];
 
     const oldSession = await prisma.sessions.findUnique({
       where: {
@@ -231,7 +232,7 @@ app
     }
 
     const validRefreshToken = await Bun.password.verify(
-      refreshTokenFromToken,
+      rt,
       oldSession.tokenHashed,
     );
 
